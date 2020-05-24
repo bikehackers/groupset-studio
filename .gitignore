@@ -1,0 +1,8 @@
+.ionide
+.paket
+.fable
+bin
+obj
+node_modules
+*.log
+paket-files
