@@ -4,7 +4,12 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Shifter.fs" />
+    <Compile Include="Cassette.fs" />
+    <Compile Include="Chain.fs" />
+    <Compile Include="RearDerailleur.fs" />
+    <Compile Include="App.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

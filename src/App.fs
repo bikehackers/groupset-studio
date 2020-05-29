@@ -1,4 +1,4 @@
-﻿module GroupSetStudio
+﻿module GroupSetStudio.App
 
 open Fable
 open Fable.Core
@@ -7,44 +7,11 @@ open Fable.React
 open Fable.React.Props
 open Browser
 open Browser.Types
-
-type Side =
-  | Left
-  | Right
-
-type Handedness =
-  | Specific of Side
-  | Ambi
-
-type RearDerailleur =
-  {
-    Manufacturer : string
-    ProductCode : string
-    ActuationRatio : int * int
-    Speed : int
-    Weight : int
-    LowestGear : int
-    Capacity : int
-    Clutched : bool
-  }
-
-type Shifter =
-  {
-    Manufacturer : string
-    ProductCode : string
-    Speed : int
-    CablePull : float
-    Side : Handedness
-  }
-
-type Cassette =
-  {
-    Manufacturer : string
-    ProductCode : string
-    Cogs : int list
-    SprocketPitch : float
-    Interface : string
-  }
+open GroupSetStudio
+open GroupSetStudio.Shifter
+open GroupSetStudio.RearDerailleur
+open GroupSetStudio.Cassette
+open GroupSetStudio.Chain
 
 type GroupSet =
   {
@@ -52,12 +19,14 @@ type GroupSet =
     RightShifter : Shifter
     RearDerailleur : RearDerailleur
     Cassette : Cassette
+    Chain : Chain
   }
 
 type CompatabilityIssue =
   | ShifterHandedness of Side * Shifter
   | SprocketPitchMismatch of float * float
   | RearSpeedMismatch of int * int
+  | ChainCassetteSpeedMismatch of int * int
 
 let ratioToFloat (n, d) =
   float n / float d
@@ -84,6 +53,10 @@ let findIssues (groupSet : GroupSet) : CompatabilityIssue list =
     if groupSet.RightShifter.Speed <> List.length groupSet.Cassette.Cogs
     then
       yield RearSpeedMismatch (groupSet.RightShifter.Speed, List.length groupSet.Cassette.Cogs)
+
+    if groupSet.Chain.Speed <> List.length groupSet.Cassette.Cogs
+    then
+      yield ChainCassetteSpeedMismatch (groupSet.Chain.Speed, List.length groupSet.Cassette.Cogs)
   }
   |> Seq.toList
 
@@ -108,7 +81,7 @@ let shifters =
       ProductCode = "ST-4700-R"
       Speed = 10
       Side = Specific Right
-      CablePull = 2.7
+      CablePull = 3.95 / 1.4
     }
   ]
   |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)
@@ -120,16 +93,22 @@ let rearDerailleurs =
       ProductCode = "RD-RX812"
       ActuationRatio = 27, 10
       Capacity = 31
-      LowestGear = 42
+      LargestCogMaxTeeth = 42
+      LargestCogMinTeeth = 40
+      SmallestCogMaxTeeth = 11
+      SmallestCogMinTeeth = 11
       Clutched = true
       Weight = 267
       Speed = 11
     }
     {
       Manufacturer = "shimano"
-      ProductCode = "RD-M771"
+      ProductCode = "RD-M771-SGS"
       Speed = 9
-      LowestGear = 34
+      LargestCogMaxTeeth = 34
+      LargestCogMinTeeth = 32
+      SmallestCogMaxTeeth = 11
+      SmallestCogMinTeeth = 11
       Weight = 239
       ActuationRatio = 17, 10
       Capacity = 45
@@ -139,9 +118,12 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-4700-SS"
       Speed = 10
-      LowestGear = 28
+      LargestCogMaxTeeth = 28
+      LargestCogMinTeeth = 25
+      SmallestCogMaxTeeth = 14
+      SmallestCogMinTeeth = 11
       Weight = 275
-      ActuationRatio = 79, 54 // Computed
+      ActuationRatio = 14, 10
       Capacity = 33
       Clutched = false
     }
@@ -149,10 +131,26 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-4700-GS"
       Speed = 10
-      LowestGear = 34
+      LargestCogMaxTeeth = 34
+      LargestCogMinTeeth = 28
+      SmallestCogMaxTeeth = 12
+      SmallestCogMinTeeth = 11
       Weight = 275
-      ActuationRatio = 79, 54 // Computed
-      Capacity = 39
+      ActuationRatio = 14, 10
+      Capacity = 41
+      Clutched = false
+    }
+    {
+      Manufacturer = "shimano"
+      ProductCode = "RD-M592-SGS"
+      Speed = 9
+      LargestCogMaxTeeth = 36
+      LargestCogMinTeeth = 32
+      SmallestCogMaxTeeth = 12
+      SmallestCogMinTeeth = 11
+      Weight = 286
+      ActuationRatio = 17, 10
+      Capacity = 45
       Clutched = false
     }
   ]
@@ -167,6 +165,49 @@ let cassettes =
       Cogs = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
       SprocketPitch = 3.95
     }
+    {
+      Manufacturer = "shimano"
+      ProductCode = "CS-M8000-BS"
+      Interface = "hyperglide"
+      Cogs = [ 11; 13; 15; 17; 19; 21; 24; 27; 31; 35; 40 ]
+      SprocketPitch = 3.95
+    }
+    {
+      Manufacturer = "shimano"
+      ProductCode = "CS-HG81-10-BK"
+      Interface = "hyperglide"
+      Cogs = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
+      SprocketPitch = 3.95
+    }
+  ]
+  |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)
+
+let chains =
+  [
+    {
+      Manufacturer = "kmc"
+      ProductCode = "BX09SLT14"
+      Speed = 9
+      Weight = 272
+    }
+    {
+      Manufacturer = "kmc"
+      ProductCode = "BX10ELT14"
+      Speed = 10
+      Weight = 262
+    }
+    {
+      Manufacturer = "shimano"
+      ProductCode = "CH-HG701-11"
+      Speed = 11
+      Weight = 257
+    }
+    {
+      Manufacturer = "shimano"
+      ProductCode = "CN-HG54"
+      Speed = 10
+      Weight = 273
+    }
   ]
   |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)
 
@@ -179,8 +220,9 @@ let defaultGroupSet =
   {
     LeftShifter = shifters |> Seq.find (fun x -> x.ProductCode = "ST-5700-L")
     RightShifter = shifters |> Seq.find (fun x -> x.ProductCode = "ST-5700-R")
-    RearDerailleur = rearDerailleurs |> Seq.find (fun x -> x.ProductCode = "RD-M771")
+    RearDerailleur = rearDerailleurs |> Seq.find (fun x -> x.ProductCode = "RD-M771-SGS")
     Cassette = cassettes |> Seq.find (fun x -> x.ProductCode = "CS-HG50-10")
+    Chain = chains |> Seq.find (fun x -> x.ProductCode = "CN-HG54")
   }
 
 type Props = obj
@@ -198,7 +240,11 @@ let renderIssue issue =
   | SprocketPitchMismatch (x, y) ->
     div
       []
-      [ str (sprintf "Your cassette sprocket pitch does not match your rear derailleur action (%f and %f)" x y) ]
+      [ str (sprintf "Your rear derailleur action does not match your cassette sprocket pitch (%gmm and %gmm respectively)" x y) ]
+  | ChainCassetteSpeedMismatch (x, y) ->
+    div
+      []
+      [ str (sprintf "Your chain and cassette have mismatched speeds (%i and %i)" x y) ]
 
 type App (initProps) =
   inherit Component<Props, State> (initProps) with
@@ -220,36 +266,78 @@ type App (initProps) =
         header
           []
           [
-            h1 [] [ str "GroupSet Studio" ]
+            h1 [] [ str "Group Set Studio" ]
           ]
 
         h2 [] [ str "Components" ]
 
         h3 [] [ str "Left Shifter" ]
         select
-          []
+          [
+            Value groupSet.LeftShifter.ProductCode
+            OnChange
+              (fun e ->
+                let productCode = !!e.target?value
+
+                match shifters |> Seq.tryFind (fun x -> x.ProductCode = productCode) with
+                | Some sh ->
+                  this.setState
+                    (fun s p ->
+                      {
+                        s with
+                          GroupSet =
+                            {
+                              s.GroupSet with
+                                LeftShifter = sh
+                            }
+                      })
+                | None -> ()
+              )
+          ]
           (
             shifters
             |> Seq.map (fun shifter ->
               option
-                [ Name shifter.ProductCode ]
+                [ Value shifter.ProductCode ]
                 [ str (shifter.Manufacturer + " " + shifter.ProductCode) ]
             )
             |> Seq.toList
           )
+        shifter groupSet.LeftShifter
 
         h3 [] [ str "Right Shifter" ]
         select
-          []
+          [
+            Value groupSet.RightShifter.ProductCode
+            OnChange
+              (fun e ->
+                let productCode = !!e.target?value
+
+                match shifters |> Seq.tryFind (fun x -> x.ProductCode = productCode) with
+                | Some sh ->
+                  this.setState
+                    (fun s p ->
+                      {
+                        s with
+                          GroupSet =
+                            {
+                              s.GroupSet with
+                                RightShifter = sh
+                            }
+                      })
+                | None -> ()
+              )
+          ]
           (
             shifters
             |> Seq.map (fun shifter ->
               option
-                [ Name shifter.ProductCode ]
+                [ Value shifter.ProductCode ]
                 [ str (shifter.Manufacturer + " " + shifter.ProductCode) ]
             )
             |> Seq.toList
           )
+        shifter groupSet.RightShifter
 
         h3 [] [ str "Rear Derailleur" ]
         select
@@ -283,8 +371,9 @@ type App (initProps) =
             )
             |> Seq.toList
           )
+        rearDerailleur groupSet.RearDerailleur
 
-        h3 [] [ str "Cassettes" ]
+        h3 [] [ str "Cassette" ]
         select
           [
             Value groupSet.Cassette.ProductCode
@@ -316,6 +405,41 @@ type App (initProps) =
             )
             |> Seq.toList
           )
+        cassette groupSet.Cassette
+
+        h3 [] [ str "Chain" ]
+        select
+          [
+            Value groupSet.Chain.ProductCode
+            OnChange
+              (fun e ->
+                let productCode = !!e.target?value
+
+                match chains |> Seq.tryFind (fun x -> x.ProductCode = productCode) with
+                | Some c ->
+                  this.setState
+                    (fun s p ->
+                      {
+                        s with
+                          GroupSet =
+                            {
+                              s.GroupSet with
+                                Chain = c
+                            }
+                      })
+                | None -> ()
+              )
+          ]
+          (
+            chains
+            |> Seq.map (fun c ->
+              option
+                [ Value c.ProductCode ]
+                [ str (c.Manufacturer + " " + c.ProductCode) ]
+            )
+            |> Seq.toList
+          )
+        chain groupSet.Chain
 
         h2 [] [ str "Issues" ]
         (
