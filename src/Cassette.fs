@@ -10,8 +10,8 @@ open Browser.Types
 open FSharpx
 
 let cassette (cassette : Cassette) =
-  let cogsString =
-    cassette.Cogs
+  let sprocketString =
+    cassette.Sprockets
     |> Seq.map (sprintf "%it")
     |> String.concat ", "
 
@@ -24,8 +24,8 @@ let cassette (cassette : Cassette) =
         [
           dt [] [ str "Manufacturer" ]
           dd [] [ str cassette.Manufacturer ]
-          dt [] [ str <| sprintf "Cogs (%i)" (Seq.length cassette.Cogs) ]
-          dd [] [ str cogsString ]
+          dt [] [ str <| sprintf "Sprockets (%i)" (Seq.length cassette.Sprockets) ]
+          dd [] [ str sprocketString ]
           dt [] [ str "Sprocket Pitch" ]
           dd [] [ str <| sprintf "%gmm" cassette.SprocketPitch ]
           dt [] [ str "Interface" ]

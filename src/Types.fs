@@ -24,10 +24,10 @@ type RearDerailleur =
     ActuationRatio : int * int
     Speed : int
     Weight : int
-    LargestCogMaxTeeth : int
-    LargestCogMinTeeth : int
-    SmallestCogMaxTeeth : int
-    SmallestCogMinTeeth : int
+    LargestSprocketMaxTeeth : int
+    LargestSprocketMinTeeth : int
+    SmallestSprocketMaxTeeth : int
+    SmallestSprocketMinTeeth : int
     Capacity : int
     Clutched : bool
   }
@@ -36,7 +36,7 @@ type Cassette =
   {
     Manufacturer : string
     ProductCode : string
-    Cogs : int list
+    Sprockets : int list
     SprocketPitch : float
     Interface : string
   }

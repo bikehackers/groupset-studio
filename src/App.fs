@@ -27,6 +27,7 @@ type CompatabilityIssue =
   | SprocketPitchMismatch of float * float
   | RearSpeedMismatch of int * int
   | ChainCassetteSpeedMismatch of int * int
+  | RearCassetteTooLarge of int * int
 
 let ratioToFloat (n, d) =
   float n / float d
@@ -50,13 +51,20 @@ let findIssues (groupSet : GroupSet) : CompatabilityIssue list =
     then
       yield SprocketPitchMismatch (expectedSprocketPitch, groupSet.Cassette.SprocketPitch)
 
-    if groupSet.RightShifter.Speed <> List.length groupSet.Cassette.Cogs
+    if groupSet.RightShifter.Speed <> List.length groupSet.Cassette.Sprockets
     then
-      yield RearSpeedMismatch (groupSet.RightShifter.Speed, List.length groupSet.Cassette.Cogs)
+      yield RearSpeedMismatch (groupSet.RightShifter.Speed, List.length groupSet.Cassette.Sprockets)
 
-    if groupSet.Chain.Speed <> List.length groupSet.Cassette.Cogs
+    if groupSet.Chain.Speed <> List.length groupSet.Cassette.Sprockets
     then
-      yield ChainCassetteSpeedMismatch (groupSet.Chain.Speed, List.length groupSet.Cassette.Cogs)
+      yield ChainCassetteSpeedMismatch (groupSet.Chain.Speed, List.length groupSet.Cassette.Sprockets)
+
+    match Seq.tryMax groupSet.Cassette.Sprockets with
+    | Some t ->
+      if t > groupSet.RearDerailleur.LargestSprocketMaxTeeth
+      then
+        yield RearCassetteTooLarge (t, groupSet.RearDerailleur.LargestSprocketMaxTeeth)
+    | None -> ()
   }
   |> Seq.toList
 
@@ -83,6 +91,13 @@ let shifters =
       Side = Specific Right
       CablePull = 3.95 / 1.4
     }
+    {
+      Manufacturer = "sram"
+      ProductCode = "SB-APX-B1"
+      Speed = 11
+      Side = Specific Right
+      CablePull = 3.1
+    }
   ]
   |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)
 
@@ -93,10 +108,10 @@ let rearDerailleurs =
       ProductCode = "RD-RX812"
       ActuationRatio = 27, 10
       Capacity = 31
-      LargestCogMaxTeeth = 42
-      LargestCogMinTeeth = 40
-      SmallestCogMaxTeeth = 11
-      SmallestCogMinTeeth = 11
+      LargestSprocketMaxTeeth = 42
+      LargestSprocketMinTeeth = 40
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 11
       Clutched = true
       Weight = 267
       Speed = 11
@@ -105,10 +120,10 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-M771-SGS"
       Speed = 9
-      LargestCogMaxTeeth = 34
-      LargestCogMinTeeth = 32
-      SmallestCogMaxTeeth = 11
-      SmallestCogMinTeeth = 11
+      LargestSprocketMaxTeeth = 34
+      LargestSprocketMinTeeth = 32
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 11
       Weight = 239
       ActuationRatio = 17, 10
       Capacity = 45
@@ -118,10 +133,10 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-4700-SS"
       Speed = 10
-      LargestCogMaxTeeth = 28
-      LargestCogMinTeeth = 25
-      SmallestCogMaxTeeth = 14
-      SmallestCogMinTeeth = 11
+      LargestSprocketMaxTeeth = 28
+      LargestSprocketMinTeeth = 25
+      SmallestSprocketMaxTeeth = 14
+      SmallestSprocketMinTeeth = 11
       Weight = 275
       ActuationRatio = 14, 10
       Capacity = 33
@@ -131,10 +146,10 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-4700-GS"
       Speed = 10
-      LargestCogMaxTeeth = 34
-      LargestCogMinTeeth = 28
-      SmallestCogMaxTeeth = 12
-      SmallestCogMinTeeth = 11
+      LargestSprocketMaxTeeth = 34
+      LargestSprocketMinTeeth = 28
+      SmallestSprocketMaxTeeth = 12
+      SmallestSprocketMinTeeth = 11
       Weight = 275
       ActuationRatio = 14, 10
       Capacity = 41
@@ -144,14 +159,53 @@ let rearDerailleurs =
       Manufacturer = "shimano"
       ProductCode = "RD-M592-SGS"
       Speed = 9
-      LargestCogMaxTeeth = 36
-      LargestCogMinTeeth = 32
-      SmallestCogMaxTeeth = 12
-      SmallestCogMinTeeth = 11
+      LargestSprocketMaxTeeth = 36
+      LargestSprocketMinTeeth = 32
+      SmallestSprocketMaxTeeth = 12
+      SmallestSprocketMinTeeth = 11
       Weight = 286
       ActuationRatio = 17, 10
       Capacity = 45
       Clutched = false
+    }
+    {
+      Manufacturer = "sram"
+      ProductCode = "RD-APX-1-A1"
+      Speed = 11
+      LargestSprocketMaxTeeth = 42
+      LargestSprocketMinTeeth = 0
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 0
+      Weight = 312
+      ActuationRatio = 13, 10
+      Capacity = 0
+      Clutched = true
+    }
+    {
+      Manufacturer = "microshift"
+      ProductCode = "RD-R55S"
+      Speed = 10
+      LargestSprocketMaxTeeth = 32
+      LargestSprocketMinTeeth = 25
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 11
+      Weight = 195
+      ActuationRatio = 27, 10
+      Capacity = 35
+      Clutched = false
+    }
+    {
+      Manufacturer = "sram"
+      ProductCode = "RD-NX-1-A1"
+      Speed = 11
+      Weight = 322
+      ActuationRatio = 348, 100
+      LargestSprocketMaxTeeth = 42
+      LargestSprocketMinTeeth = 0
+      SmallestSprocketMaxTeeth = 10
+      SmallestSprocketMinTeeth = 0
+      Capacity = 0
+      Clutched = true
     }
   ]
   |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)
@@ -162,21 +216,21 @@ let cassettes =
       Manufacturer = "shimano"
       ProductCode = "CS-HG50-10"
       Interface = "hyperglide"
-      Cogs = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
+      Sprockets = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
       SprocketPitch = 3.95
     }
     {
       Manufacturer = "shimano"
       ProductCode = "CS-M8000-BS"
       Interface = "hyperglide"
-      Cogs = [ 11; 13; 15; 17; 19; 21; 24; 27; 31; 35; 40 ]
+      Sprockets = [ 11; 13; 15; 17; 19; 21; 24; 27; 31; 35; 40 ]
       SprocketPitch = 3.95
     }
     {
       Manufacturer = "shimano"
       ProductCode = "CS-HG81-10-BK"
       Interface = "hyperglide"
-      Cogs = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
+      Sprockets = [ 11; 13; 15; 17; 19; 21; 24; 28; 32; 36 ]
       SprocketPitch = 3.95
     }
   ]
@@ -220,7 +274,7 @@ let defaultGroupSet =
   {
     LeftShifter = shifters |> Seq.find (fun x -> x.ProductCode = "ST-5700-L")
     RightShifter = shifters |> Seq.find (fun x -> x.ProductCode = "ST-5700-R")
-    RearDerailleur = rearDerailleurs |> Seq.find (fun x -> x.ProductCode = "RD-M771-SGS")
+    RearDerailleur = rearDerailleurs |> Seq.find (fun x -> x.ProductCode = "RD-M592-SGS")
     Cassette = cassettes |> Seq.find (fun x -> x.ProductCode = "CS-HG50-10")
     Chain = chains |> Seq.find (fun x -> x.ProductCode = "CN-HG54")
   }
@@ -240,11 +294,15 @@ let renderIssue issue =
   | SprocketPitchMismatch (x, y) ->
     div
       []
-      [ str (sprintf "Your rear derailleur action does not match your cassette sprocket pitch (%gmm and %gmm respectively)" x y) ]
+      [ str (sprintf "Your rear derailleur action (%gmm) does not match your cassette sprocket pitch (%gmm)" x y) ]
   | ChainCassetteSpeedMismatch (x, y) ->
     div
       []
       [ str (sprintf "Your chain and cassette have mismatched speeds (%i and %i)" x y) ]
+  | RearCassetteTooLarge (x, y) ->
+    div
+      []
+      [ str (sprintf "Your rear cassette (%it) is too large for your rear derailleur (%it)" x y) ]
 
 type App (initProps) =
   inherit Component<Props, State> (initProps) with

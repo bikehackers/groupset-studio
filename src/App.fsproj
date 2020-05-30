@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Types.fs" />
+    <Compile Include="Seq.fs" />
     <Compile Include="Shifter.fs" />
     <Compile Include="Cassette.fs" />
     <Compile Include="Chain.fs" />

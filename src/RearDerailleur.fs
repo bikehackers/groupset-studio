@@ -22,25 +22,25 @@ let rearDerailleur (rd : RearDerailleur) =
           dd [] [ str <| string rd.Speed ]
           dt [] [ str "Actuation Ratio" ]
           dd [] [ str <| sprintf "%i:%i" (fst rd.ActuationRatio) (snd rd.ActuationRatio) ]
-          dt [] [ str "Largest Cog" ]
+          dt [] [ str "Largest Sprocket" ]
           dd
             []
             [
-              if rd.LargestCogMinTeeth = rd.LargestCogMaxTeeth
+              if rd.LargestSprocketMinTeeth = rd.LargestSprocketMaxTeeth
               then
-                str <| sprintf "%it" rd.LargestCogMaxTeeth
+                str <| sprintf "%it" rd.LargestSprocketMaxTeeth
               else
-                str <| sprintf "%it-%it" rd.LargestCogMinTeeth rd.LargestCogMaxTeeth
+                str <| sprintf "%it-%it" rd.LargestSprocketMinTeeth rd.LargestSprocketMaxTeeth
             ]
-          dt [] [ str "Smallest Cog" ]
+          dt [] [ str "Smallest Sprocket" ]
           dd
             []
             [
-              if rd.SmallestCogMinTeeth = rd.SmallestCogMaxTeeth
+              if rd.SmallestSprocketMinTeeth = rd.SmallestSprocketMaxTeeth
               then
-                str <| sprintf "%it" rd.SmallestCogMaxTeeth
+                str <| sprintf "%it" rd.SmallestSprocketMaxTeeth
               else
-                str <| sprintf "%it-%it" rd.SmallestCogMinTeeth rd.SmallestCogMaxTeeth
+                str <| sprintf "%it-%it" rd.SmallestSprocketMinTeeth rd.SmallestSprocketMaxTeeth
             ]
           dt [] [ str "Capacity" ]
           dd [] [ str <| sprintf "%it" rd.Capacity ]
