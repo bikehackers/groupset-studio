@@ -182,6 +182,19 @@ let rearDerailleurs =
       Clutched = true
     }
     {
+      Manufacturer = "sram"
+      ProductCode = "RD-X5-M"
+      Speed = 9
+      LargestSprocketMaxTeeth = 36
+      LargestSprocketMinTeeth = 0
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 0
+      Weight = 295
+      ActuationRatio = 1, 1
+      Capacity = 0
+      Clutched = true
+    }
+    {
       Manufacturer = "microshift"
       ProductCode = "RD-R55S"
       Speed = 10
@@ -206,6 +219,19 @@ let rearDerailleurs =
       SmallestSprocketMinTeeth = 0
       Capacity = 0
       Clutched = true
+    }
+    {
+      Manufacturer = "campagnolo"
+      ProductCode = "rd-chorus-2015-11-short"
+      Speed = 11
+      Weight = 183
+      ActuationRatio = 15, 10
+      LargestSprocketMaxTeeth = 29
+      LargestSprocketMinTeeth = 0
+      SmallestSprocketMaxTeeth = 11
+      SmallestSprocketMinTeeth = 0
+      Capacity = 34
+      Clutched = false
     }
   ]
   |> List.sortBy (fun x -> x.Manufacturer, x.ProductCode)

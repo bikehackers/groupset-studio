@@ -22,5 +22,14 @@ let shifter (shifter : Shifter) =
           dd [] [ str <| string shifter.Speed ]
           dt [] [ str "Cable Pull" ]
           dd [] [ str <| sprintf "%gmm" shifter.CablePull ]
+          dt [] [ str "Handedness" ]
+          dd
+            []
+            [
+              match shifter.Side with
+              | Specific s -> string s
+              | Ambi -> "Ambidextrous"
+              |> str
+            ]
         ]
     ]
