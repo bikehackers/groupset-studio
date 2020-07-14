@@ -35,8 +35,9 @@ jobs:
         git config --global user.email 'njlr@users.noreply.github.com'
         git config --global user.name 'njlr'
         git fetch --prune --unshallow
-        git checkout -b gh-pages
         cp -r ./out /tmp/docs
+        git checkout -b gh-pages
+        git pull
         rm -r *
         cp -r /tmp/docs/. ./
         git commit -am "Updates pages"
