@@ -39,8 +39,7 @@ jobs:
         git checkout -b gh-pages
         git branch --set-upstream-to=origin/gh-pages
         git pull
-        rm -r *
-        rm -f .gitignore
+        ls -A1 | xargs rm -rf
         cp -r /tmp/docs/. ./
         git add .
         git commit -m "Updates pages"
