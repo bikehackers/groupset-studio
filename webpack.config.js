@@ -30,7 +30,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './index.ejs',
+      inject: true,
     }),
     new CopyPlugin({
       patterns: [
