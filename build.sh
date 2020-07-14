@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-dotnet tool restore
-
 cd ./external/components-db/components
+dotnet tool restore
 dotnet paket install
 cd -
 
+dotnet tool restore
 dotnet paket install
 dotnet paket generate-load-scripts
 dotnet build
