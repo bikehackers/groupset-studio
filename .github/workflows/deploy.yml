@@ -40,4 +40,4 @@ jobs:
         cp -r ./out ./docs
         git add ./docs
         git commit -m "Updates pages"
-        git push
+        git push --set-upstream origin gh-pages
