@@ -32,7 +32,8 @@ jobs:
 
     - name: Deploy
       run: |
-        git checkout -t origin/gh-pages
+        git fetch --prune --unshallow
+        git checkout gh-pages
         rm -rf ./docs
         cp -r ./out ./docs
         git add ./docs
