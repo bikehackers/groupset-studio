@@ -3,6 +3,11 @@
 dotnet restore
 dotnet tool restore
 dotnet paket install
+
+cd ./external/components-db/components
+dotnet paket install
+cd -
+
 dotnet paket generate-load-scripts
 dotnet build
 dotnet test
