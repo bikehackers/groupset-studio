@@ -32,6 +32,8 @@ jobs:
 
     - name: Deploy
       run: |
+        git config --global user.email 'njlr@users.noreply.github.com'
+        git config --global user.name 'njlr'
         git fetch --prune --unshallow
         git checkout gh-pages
         rm -rf ./docs
