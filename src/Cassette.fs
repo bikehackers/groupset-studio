@@ -1,13 +1,8 @@
 module GroupSetStudio.Cassette
 
-open Fable
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Browser
-open Browser.Types
 open FSharpx
+open BikeHackers.Components
 
 let cassette (cassette : Cassette) =
   let sprocketString =
@@ -18,12 +13,12 @@ let cassette (cassette : Cassette) =
   div
     []
     [
-      h4 [] [ str cassette.ProductCode ]
+      h4 [] [ str cassette.ManufacturerProductCode ]
       dl
         []
         [
           dt [] [ str "Manufacturer" ]
-          dd [] [ str cassette.Manufacturer ]
+          dd [] [ str cassette.ManufacturerCode ]
           dt [] [ str <| sprintf "Sprockets (%i)" (Seq.length cassette.Sprockets) ]
           dd [] [ str sprocketString ]
           dt [] [ str "Sprocket Pitch" ]

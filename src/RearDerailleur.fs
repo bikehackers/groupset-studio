@@ -7,6 +7,7 @@ open Fable.React
 open Fable.React.Props
 open Browser
 open Browser.Types
+open BikeHackers.Components
 
 let rearDerailleur (rd : RearDerailleur) =
   div

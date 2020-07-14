@@ -1,5 +1,7 @@
 # groupset-studio
 
+Experimental groupset compatability checker driven by the components database.
+
 ```bash
 dotnet install
 dotnet paket install

@@ -1,16 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Types.fs" />
     <Compile Include="Seq.fs" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="Api.fs" />
     <Compile Include="Shifter.fs" />
     <Compile Include="Cassette.fs" />
     <Compile Include="Chain.fs" />
     <Compile Include="RearDerailleur.fs" />
+    <Compile Include="Editor.fs" />
     <Compile Include="App.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\external\components-db\components\components.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

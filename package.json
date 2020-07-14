@@ -2,6 +2,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "copy-webpack-plugin": "^6.0.3",
     "fable-compiler": "^2.9.0",
     "fable-loader": "^2.1.9",
     "html-webpack-plugin": "^4.3.0",

@@ -1,23 +1,18 @@
 module GroupSetStudio.Shifter
 
-open Fable
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Browser
-open Browser.Types
+open BikeHackers.Components
 
-let shifter (shifter : Shifter) =
+let shifter (shifter : IntegratedShifter) =
   div
     []
     [
-      h4 [] [ str shifter.ProductCode ]
+      h4 [] [ str (Option.defaultValue "-" shifter.ManufacturerProductCode) ]
       dl
         []
         [
           dt [] [ str "Manufacturer" ]
-          dd [] [ str shifter.Manufacturer ]
+          dd [] [ str shifter.ManufacturerCode ]
           dt [] [ str "Speeds" ]
           dd [] [ str <| string shifter.Speed ]
           dt [] [ str "Cable Pull" ]
@@ -26,7 +21,7 @@ let shifter (shifter : Shifter) =
           dd
             []
             [
-              match shifter.Side with
+              match shifter.Hand with
               | Specific s -> string s
               | Ambi -> "Ambidextrous"
               |> str

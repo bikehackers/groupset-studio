@@ -6,3 +6,5 @@ obj
 node_modules
 *.log
 paket-files
+out
+blob.json
