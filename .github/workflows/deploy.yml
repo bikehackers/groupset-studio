@@ -32,7 +32,7 @@ jobs:
 
     - name: Deploy
       run: |
-        git checkout gh-pages
+        git checkout -t origin/gh-pages
         rm -rf ./docs
         cp -r ./out ./docs
         git add ./docs
