@@ -38,6 +38,6 @@ jobs:
         git checkout -b gh-pages
         cp -r ./out /tmp/docs
         rm -r *
-        cp -r /tmp/docs ./
+        cp -r /tmp/docs/. ./
         git commit -am "Updates pages"
         git push --set-upstream origin gh-pages
