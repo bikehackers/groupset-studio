@@ -36,7 +36,7 @@ open Thoth
 
 let fetchData : Async<Data> =
   async {
-    let! (statusCode, responseText) = Http.get "/blob.json"
+    let! (statusCode, responseText) = Http.get "./blob.json"
 
     match statusCode with
     | 200 ->
