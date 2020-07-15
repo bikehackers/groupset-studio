@@ -38,7 +38,7 @@ jobs:
         cp -r ./out /tmp/docs
         git checkout -b gh-pages
         git branch --set-upstream-to=origin/gh-pages
-        git pull --rebase || true
+        git reset --hard origin/master
         rm -r ./*
         cp -r /tmp/docs/. ./
         git add .
