@@ -1,0 +1,245 @@
+{
+  "rearDerailleurs": [
+    {
+      "manufacturer": "shimano",
+      "productCode": "RD-4700-GS",
+      "actuationRatio": "14:10",
+      "speeds": 10,
+      "weight": 275,
+      "largestSprocketMaxTeeth": 34,
+      "largestSprocketMinTeeth": 28,
+      "smallestSprocketMaxTeeth": 12,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 41,
+      "isClutched": false
+    },
+    {
+      "manufacturer": "shimano",
+      "productCode": "RD-4700-SS",
+      "actuationRatio": "14:10",
+      "speeds": 10,
+      "weight": 275,
+      "largestSprocketMaxTeeth": 28,
+      "largestSprocketMinTeeth": 25,
+      "smallestSprocketMaxTeeth": 14,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 33,
+      "isClutched": false
+    },
+    {
+      "manufacturer": "shimano",
+      "productCode": "RD-RX812",
+      "actuationRatio": "14:10",
+      "speeds": 11,
+      "weight": 267,
+      "largestSprocketMaxTeeth": 42,
+      "largestSprocketMinTeeth": 40,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 31,
+      "isClutched": true
+    },
+    {
+      "manufacturer": "shimano",
+      "productCode": "RD-M771-SGS",
+      "actuationRatio": "17:10",
+      "speeds": 9,
+      "weight": 239,
+      "largestSprocketMaxTeeth": 34,
+      "largestSprocketMinTeeth": 32,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 45,
+      "isClutched": false
+    },
+    {
+      "manufacturer": "shimano",
+      "productCode": "RD-M592-SGS",
+      "actuationRatio": "17:10",
+      "speeds": 9,
+      "weight": 286,
+      "largestSprocketMaxTeeth": 36,
+      "largestSprocketMinTeeth": 32,
+      "smallestSprocketMaxTeeth": 12,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 45,
+      "isClutched": false
+    },
+    {
+      "manufacturer": "campagnolo",
+      "productCode": "RD-CHORUS-2015-11-SHORT",
+      "actuationRatio": "15:10",
+      "speeds": 11,
+      "weight": 183,
+      "largestSprocketMaxTeeth": 29,
+      "largestSprocketMinTeeth": null,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 34,
+      "isClutched": false
+    },
+    {
+      "manufacturer": "sram",
+      "productCode": "RD-X5-M",
+      "actuationRatio": "1:1",
+      "speeds": 9,
+      "weight": 295,
+      "largestSprocketMaxTeeth": 36,
+      "largestSprocketMinTeeth": null,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": null,
+      "capacity": null,
+      "isClutched": true
+    },
+    {
+      "manufacturer": "sram",
+      "productCode": "RD-APX-1-A1",
+      "actuationRatio": "13:10",
+      "speeds": 11,
+      "weight": 312,
+      "largestSprocketMaxTeeth": 42,
+      "largestSprocketMinTeeth": null,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": null,
+      "capacity": null,
+      "isClutched": true
+    },
+    {
+      "manufacturer": "sram",
+      "productCode": "RD-NX-1-A1",
+      "actuationRatio": "348:100",
+      "speeds": 11,
+      "weight": 322,
+      "largestSprocketMaxTeeth": 42,
+      "largestSprocketMinTeeth": null,
+      "smallestSprocketMaxTeeth": 10,
+      "smallestSprocketMinTeeth": null,
+      "capacity": null,
+      "isClutched": true
+    },
+    {
+      "manufacturer": "microshift",
+      "productCode": "RD-R55S",
+      "actuationRatio": "27:10",
+      "speeds": 10,
+      "weight": 195,
+      "largestSprocketMaxTeeth": 32,
+      "largestSprocketMinTeeth": 25,
+      "smallestSprocketMaxTeeth": 11,
+      "smallestSprocketMinTeeth": 11,
+      "capacity": 35,
+      "isClutched": false
+    }
+  ],
+  "cassettes": [
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "CS-HG50-10",
+      "interface": "hyperglide",
+      "sprockets": [
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        24,
+        28,
+        32,
+        36
+      ],
+      "sprocketPitch": 3.95
+    },
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "CS-HG81-10-BK",
+      "interface": "hyperglide",
+      "sprockets": [
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        24,
+        28,
+        32,
+        36
+      ],
+      "sprocketPitch": 3.95
+    },
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "CS-M8000-BS",
+      "interface": "hyperglide",
+      "sprockets": [
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        24,
+        27,
+        31,
+        35,
+        40
+      ],
+      "sprocketPitch": 3.69
+    }
+  ],
+  "chains": [
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "CN-HG701",
+      "speed": 11,
+      "weight": 257
+    },
+    {
+      "manufacturerCode": "kmc",
+      "manufacturerProductCode": "BX09SLT14",
+      "speed": 9,
+      "weight": 272
+    },
+    {
+      "manufacturerCode": "kmc",
+      "manufacturerProductCode": "BX10ELT14",
+      "speed": 10,
+      "weight": 262
+    }
+  ],
+  "integratedShifters": [
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "ST-5700-L",
+      "speed": 2,
+      "cablePull": 2.3,
+      "hand": "left",
+      "weight": 243
+    },
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "ST-5700-R",
+      "speed": 10,
+      "cablePull": 2.3,
+      "hand": "right",
+      "weight": 243
+    },
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "ST-RX810-R",
+      "speed": 11,
+      "cablePull": 2.7,
+      "hand": "right",
+      "weight": 284
+    },
+    {
+      "manufacturerCode": "shimano",
+      "manufacturerProductCode": "ST-RX810-L",
+      "speed": 2,
+      "cablePull": 2.7,
+      "hand": "left",
+      "weight": 284
+    }
+  ]
+}
