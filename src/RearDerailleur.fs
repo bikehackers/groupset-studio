@@ -1,12 +1,6 @@
 module GroupSetStudio.RearDerailleur
 
-open Fable
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.React
-open Fable.React.Props
-open Browser
-open Browser.Types
 open BikeHackers.Components
 
 let rearDerailleur (rd : RearDerailleur) =
@@ -27,23 +21,39 @@ let rearDerailleur (rd : RearDerailleur) =
           dd
             []
             [
-              if rd.LargestSprocketMinTeeth = rd.LargestSprocketMaxTeeth
-              then
-                str <| sprintf "%it" rd.LargestSprocketMaxTeeth
-              else
-                str <| sprintf "%it-%it" rd.LargestSprocketMinTeeth rd.LargestSprocketMaxTeeth
+              match rd.LargestSprocketMinTeeth with
+              | Some largestSprocketMinTeeth ->
+                if largestSprocketMinTeeth = rd.LargestSprocketMaxTeeth
+                then
+                  str <| sprintf "%it" rd.LargestSprocketMaxTeeth
+                else
+                  str <| sprintf "%it-%it" largestSprocketMinTeeth rd.LargestSprocketMaxTeeth
+              | None ->
+                  str <| sprintf "%it" rd.LargestSprocketMaxTeeth
             ]
           dt [] [ str "Smallest Sprocket" ]
           dd
             []
             [
-              if rd.SmallestSprocketMinTeeth = rd.SmallestSprocketMaxTeeth
-              then
-                str <| sprintf "%it" rd.SmallestSprocketMaxTeeth
-              else
-                str <| sprintf "%it-%it" rd.SmallestSprocketMinTeeth rd.SmallestSprocketMaxTeeth
+              match rd.SmallestSprocketMinTeeth, rd.SmallestSprocketMaxTeeth with
+              | Some smallestSprocketMinTeeth, Some smallestSprocketMaxTeeth ->
+                if smallestSprocketMinTeeth = smallestSprocketMaxTeeth
+                then
+                  str <| sprintf "%it" smallestSprocketMaxTeeth
+                else
+                  str <| sprintf "%it-%it" smallestSprocketMinTeeth smallestSprocketMaxTeeth
+              | _ ->
+                str "-"
             ]
           dt [] [ str "Capacity" ]
-          dd [] [ str <| sprintf "%it" rd.Capacity ]
+          dd
+            []
+            [
+              match rd.Capacity with
+              | Some capacity ->
+                str <| sprintf "%it" capacity
+              | None ->
+                str "-"
+            ]
         ]
     ]
